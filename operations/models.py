@@ -374,7 +374,7 @@ class CalcParameters(models.Model):
         return '{n} - {v}'.format(n=self.name, v=self.value)
 
     class Meta:
-        db_table = 'calc_Parameters'
+        db_table = 'calc_parameters'
         verbose_name = 'Calculation Parameter'
         verbose_name_plural = 'Calculation Parameters'
         ordering = ['name']
