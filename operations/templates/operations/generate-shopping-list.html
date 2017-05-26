@@ -1,0 +1,114 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" type="text/css">
+    <link rel="stylesheet" href="{% static 'operations/css/operations.css' %}">
+</head>
+
+<body onload="checkSelectedDishes()">
+
+{% block content %}
+{% include "operations/_header.html" %}
+{% endblock %}
+
+<form action="{% url 'operations:shopping-list' %}" method="post" class="form-horizontal" id="id_shopping_list_form">
+    <div class="container">
+        {% csrf_token %}
+        <!-- Dish quantities table -->
+        <div class="col-md-4">
+            <h3 class="sub-header">Dishes</h3>
+            <h5><i>Select to narrow down Shopping List</i></h5>
+            <table class="table table-striped table-condensed table-bordered small">
+                <thead class="">
+                <tr>
+                    <th class="col-md-1" align="left"></th>
+                    <th class="col-md-2" align="left">Dish</th>
+                    <th class="col-md-1" align="right">Quantity</th>
+                </tr>
+                </thead>
+                {% if dish_quantities  %}
+                <tbody>
+                {% for dq in dish_quantities %}
+                <tr>
+                    <td><input type="checkbox" name="dish_ids" id="id_dish_{{ dq.dish_id }}" value="{{ dq.dish_id }}"></td>
+                    <td>{{ dq.dish_name }}</td>
+                    <td align="right">{{ dq.dish_qty }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                {% else %}
+                No dish quantities to display
+                {% endif %}
+            </table>
+            <div class="form-group">
+                <div class="controls col-md-1">
+                    <input type="submit" name="submit" value="Refresh" class="btn btn-primary"
+                           id="id_submit_shopping_list_form" onclick="return true"/>
+                </div>
+            </div>
+            <input type="hidden" id="id_orders" name="order_ids" value="{{order_ids}}"/>
+            <input type="hidden" id="id_selected_dishes" name="selected_dish_ids" value="{{selected_dish_ids}}"/>
+        </div>
+        <!-- Ingredient quantities and cost table -->
+        <div class="col-md-6">
+            <h3 class="sub-header">Shopping List</h3>
+            <div class="row">
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-default" aria-label="Left Align"
+                            form="id_shopping_list_form" formaction="{% url 'operations:create-order' %}" formmethod="get"
+                            data-toggle="tooltip" title="Print">
+                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-default" aria-label="Left Align"
+                            form="id_shopping_list_form" formaction="{% url 'operations:create-order' %}" formmethod="get"
+                            data-toggle="tooltip" title="Mail">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+            <h5></h5> <!-- a space to v-align the two tables -->
+            <table class="table table-striped table-condensed table-bordered small"> <!--table-hover table-bordered-->
+                <thead class="">
+                <tr>
+                    <th class="col-md-3" align="left">Ingredient</th>
+                    <th class="col-md-1" align="left">Weight</th>
+                    <th class="col-md-2" align="left">Estimated Cost ($)</th>
+                </tr>
+                </thead>
+                {% if ingredients_shopping_list  %}
+                <tbody>
+                {% for sl in ingredients_shopping_list %}
+                <tr>
+                    <td >{{ sl.ingredient_name }}</td> <!-- class="col-md-2"  -->
+                    <td align="right">{{ sl.total_ingredient_weight }}</td>
+                    <td align="right">{{ sl.total_cost_price }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                {% else %}
+                No ingredient quantities to display
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</form>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{% static 'operations/js/operations.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
+</html>
