@@ -13,11 +13,11 @@ def get_db_credentials():
     f_props.close()
 
     f_user_file = open(props['USER_FILE_PATH'], 'r')
-    props['USER'] = f_user_file.readline()
+    props['USER'] = f_user_file.readline().replace('\n', '')
     f_user_file.close()
 
     f_passwd_file = open(props['PASSWORD_FILE_PATH'], 'r')
-    props['PASSWORD'] = f_passwd_file.readline()
+    props['PASSWORD'] = f_passwd_file.readline().replace('\n', '')
     f_passwd_file.close()
 
     return props
