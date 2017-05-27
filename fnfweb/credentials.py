@@ -5,8 +5,9 @@ class AppProperties:
     def __init__(self):
         self.props = {}
 
+        web_home = os.getenv('FNFWEB_HOME')
         env = os.getenv('FNF_ENV')
-        f_props = open('./properties/{env}.properties'.format(env=env), 'r')
+        f_props = open('{web_home}/properties/{env}.properties'.format(web_home=web_home, env=env), 'r')
 
         for line in f_props:
             splits = line.split('=')
