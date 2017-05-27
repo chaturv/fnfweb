@@ -11,22 +11,24 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from . import credentials
+from .credentials import AppProperties
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# application wide properties
+appProps = AppProperties()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6@hke+c)^h=cjd@ic!c!vp3ie5$bdkqu-7__@qgu&al^f1c1ru'
+SECRET_KEY = appProps.get_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,7 +80,7 @@ WSGI_APPLICATION = 'fnfweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-db_creds = credentials.get_db_credentials()
+db_creds = appProps.get_db_credentials()
 
 DATABASES = {
     'default': {
