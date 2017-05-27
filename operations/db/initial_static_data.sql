@@ -4,6 +4,13 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+DELETE FROM `calc_parameters`;
+/*!40000 ALTER TABLE `calc_parameters` DISABLE KEYS */;
+INSERT INTO `calc_parameters` (`id`, `name`, `value`, `description`) VALUES
+	(1, 'tax_rate', 0.070, 'GST'),
+	(2, 'online_store_prct', 0.034, 'Online store percentage charge on total amount'),
+	(3, 'online_store_markup', 0.500, 'Online store flat markup ');
+/*!40000 ALTER TABLE `calc_parameters` ENABLE KEYS */;
 
 DELETE FROM `delivery_partner`;
 /*!40000 ALTER TABLE `delivery_partner` DISABLE KEYS */;
@@ -43,7 +50,7 @@ INSERT INTO `dish_ingredient` (`id`, `ingredient_weight`, `dish_id`, `ingredient
 	(5, 30.00, 5, 32, 1),
 	(6, 30.00, 5, 33, 1),
 	(7, 12.00, 5, 34, 1),
-	(8, 5.00, 5, 15, 1),
+	(8, 5.00, 5, 64, 1),
 	(9, 1.00, 5, 19, 1),
 	(10, 1.00, 5, 56, 1),
 	(11, 50.00, 5, 58, 1),
@@ -51,31 +58,31 @@ INSERT INTO `dish_ingredient` (`id`, `ingredient_weight`, `dish_id`, `ingredient
 	(13, 150.00, 4, 26, 1),
 	(14, 100.00, 4, 27, 1),
 	(15, 75.00, 4, 5, 1),
-	(16, 5.00, 4, 15, 1),
+	(16, 5.00, 4, 64, 1),
 	(17, 15.00, 4, 38, 1),
 	(18, 20.00, 4, 29, 1),
 	(19, 1.00, 4, 19, 1),
 	(20, 50.00, 4, 58, 1),
 	(21, 35.00, 2, 20, 1),
 	(22, 5.00, 2, 17, 1),
-	(23, 1.00, 2, 15, 1),
+	(23, 1.00, 2, 64, 1),
 	(24, 1.00, 2, 21, 1),
 	(25, 1.00, 2, 19, 1),
 	(26, 15.00, 2, 57, 1),
 	(27, 15.00, 2, 59, 2),
 	(28, 100.00, 3, 24, 1),
 	(29, 14.00, 3, 25, 1),
-	(30, 2.00, 3, 15, 1),
+	(30, 2.00, 3, 64, 1),
 	(31, 3.00, 3, 17, 1),
 	(32, 0.50, 3, 19, 1),
 	(33, 15.00, 3, 57, 1),
-	(34, 400.00, 1, 4, 1),
-	(35, 50.00, 1, 12, 1),
-	(36, 85.00, 1, 6, 1),
+	(34, 400.00, 1, 60, 1),
+	(35, 50.00, 1, 61, 1),
+	(36, 85.00, 1, 62, 1),
 	(37, 30.00, 1, 13, 1),
-	(38, 65.00, 1, 8, 1),
+	(38, 65.00, 1, 63, 1),
 	(39, 120.00, 1, 5, 1),
-	(40, 15.00, 1, 15, 1),
+	(40, 15.00, 1, 64, 1),
 	(41, 60.00, 1, 17, 1),
 	(42, 1.50, 1, 18, 1),
 	(43, 1.00, 1, 19, 1),
@@ -106,14 +113,14 @@ INSERT INTO `dish_ingredient` (`id`, `ingredient_weight`, `dish_id`, `ingredient
 	(68, 45.00, 6, 5, 1),
 	(69, 20.00, 6, 38, 1),
 	(70, 35.00, 6, 29, 1),
-	(71, 5.00, 6, 15, 1),
+	(71, 5.00, 6, 64, 1),
 	(72, 1.00, 6, 19, 1),
 	(73, 1.00, 6, 56, 1),
 	(74, 50.00, 6, 58, 1),
 	(75, 200.00, 7, 39, 1),
 	(76, 45.00, 7, 40, 1),
 	(77, 75.00, 7, 5, 1),
-	(78, 7.00, 7, 15, 1),
+	(78, 7.00, 7, 64, 1),
 	(79, 20.00, 7, 41, 1),
 	(80, 20.00, 7, 59, 2),
 	(81, 1.00, 7, 42, 1),
@@ -125,15 +132,11 @@ DELETE FROM `employee`;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 
-DELETE FROM `employee_billing`;
-/*!40000 ALTER TABLE `employee_billing` DISABLE KEYS */;
-/*!40000 ALTER TABLE `employee_billing` ENABLE KEYS */;
-
 DELETE FROM `employee_role`;
 /*!40000 ALTER TABLE `employee_role` DISABLE KEYS */;
 INSERT INTO `employee_role` (`id`, `name`) VALUES
-	(1, 'HEAD CHEF'),
-	(2, 'ASSISTANT');
+	(2, 'ASSISTANT'),
+	(1, 'HEAD CHEF');
 /*!40000 ALTER TABLE `employee_role` ENABLE KEYS */;
 
 DELETE FROM `facility`;
@@ -142,29 +145,25 @@ INSERT INTO `facility` (`id`, `name`, `contact`, `phone_number`, `email`, `addre
 	(1, 'Cravings', 'Cynthia Tan', 86858786, '', '6 TEBING LANE', '', '#01-05', 828835, 15.00, '', 4);
 /*!40000 ALTER TABLE `facility` ENABLE KEYS */;
 
-DELETE FROM `facility_usage`;
-/*!40000 ALTER TABLE `facility_usage` DISABLE KEYS */;
-/*!40000 ALTER TABLE `facility_usage` ENABLE KEYS */;
-
 DELETE FROM `ingredient`;
 /*!40000 ALTER TABLE `ingredient` DISABLE KEYS */;
 INSERT INTO `ingredient` (`id`, `name`, `brand_name`, `cost_price`, `measure`, `notes`, `category_id`, `source_id`, `unit_id`) VALUES
-	(4, 'Tomato *', NULL, 1.25, 100.00, '', 2, 3, 1),
+	(4, 'Tomato (Organic)', NULL, 1.25, 100.00, '', 2, 3, 1),
 	(5, 'Onion, Red', NULL, 0.15, 100.00, '', 2, 1, 1),
-	(6, 'Bell Pepper, Red  *', NULL, 2.50, 100.00, '', 2, 3, 1),
-	(8, 'Broccoli', NULL, 2.30, 100.00, '', 2, 3, 1),
-	(12, 'Bell Pepper, Green *', NULL, 2.25, 100.00, '', 2, 3, 1),
-	(13, 'Carrot *', NULL, 0.18, 100.00, '', 2, 1, 1),
-	(15, 'Garlic *', NULL, 2.25, 100.00, '', 2, 3, 1),
+	(6, 'Bell Pepper, Red  (Organic)', NULL, 2.50, 100.00, '', 2, 3, 1),
+	(8, 'Broccoli (Organic)', NULL, 2.30, 100.00, '', 2, 3, 1),
+	(12, 'Bell Pepper, Green (Organic)', NULL, 2.25, 100.00, '', 2, 3, 1),
+	(13, 'Carrot', NULL, 0.18, 100.00, '', 2, 1, 1),
+	(15, 'Garlic (Organic)', NULL, 2.25, 100.00, '', 2, 3, 1),
 	(17, 'Oil, EVOO', NULL, 1.50, 100.00, 'Extra Virgin Olive Oil', 1, 1, 1),
 	(18, 'Basil, Dried ', NULL, 23.80, 100.00, '', 2, 1, 1),
 	(19, 'Sea Salt', 'Origins Healthfood', 0.47, 100.00, '', 1, 1, 1),
 	(20, 'Garbanzo Beans', NULL, 0.20, 100.00, '', 1, 6, 1),
 	(21, 'Cumin, Ground', NULL, 1.00, 100.00, '', 1, 6, 1),
 	(24, 'Avocado', NULL, 1.08, 100.00, '', 2, 1, 1),
-	(25, 'Basil, Fresh *', 'Oh farms sweet basil', 10.83, 100.00, '', 2, 1, 1),
-	(26, 'Potato, Sweet (Orange)', NULL, 0.75, 100.00, '', 2, 3, 1),
-	(27, 'Chicken Fillet', NULL, 2.22, 100.00, '', 4, 4, 1),
+	(25, 'Basil, Fresh (Organic)', 'Oh farms sweet basil', 10.83, 100.00, '', 2, 1, 1),
+	(26, 'Potato, Sweet Orange', '', 0.75, 100.00, '', 2, 3, 1),
+	(27, 'Chicken Fillet (Kee Song)', '', 2.22, 100.00, '', 4, 4, 1),
 	(28, 'Quinoa', 'Bob\'s Red Mill', 2.20, 100.00, '', 1, 6, 1),
 	(29, 'Wheatgerm', NULL, 0.83, 100.00, '', 1, 1, 1),
 	(30, 'Chicken Minced', '', 1.03, 100.00, '', 4, 4, 1),
@@ -194,7 +193,12 @@ INSERT INTO `ingredient` (`id`, `name`, `brand_name`, `cost_price`, `measure`, `
 	(56, 'Pepper, Black', 'Fairprice', 3.60, 100.00, '', 1, 1, 1),
 	(57, 'Lime Juice', NULL, 0.56, 100.00, '', 2, 1, 1),
 	(58, 'Oil, Canola', 'Fairprice', 0.33, 100.00, 'For brushing', 1, 1, 1),
-	(59, 'Water', '', 0.00, 0.00, '', 5, 7, 2);
+	(59, 'Water', '', 0.00, 0.00, '', 5, 7, 2),
+	(60, 'Tomato', '', 0.30, 100.00, '', 2, 1, 1),
+	(61, 'Bell Pepper, Green', '', 0.39, 100.00, '', 2, 1, 1),
+	(62, 'Bell Pepper, Red', '', 1.73, 100.00, '', 2, 1, 1),
+	(63, 'Broccoli', '', 1.26, 100.00, '', 2, 1, 1),
+	(64, 'Garlic', '', 1.15, 100.00, '', 2, 1, 1);
 /*!40000 ALTER TABLE `ingredient` ENABLE KEYS */;
 
 DELETE FROM `ingredient_category`;
@@ -235,24 +239,24 @@ INSERT INTO `measurement_unit` (`id`, `name`) VALUES
 DELETE FROM `order_status`;
 /*!40000 ALTER TABLE `order_status` DISABLE KEYS */;
 INSERT INTO `order_status` (`id`, `name`) VALUES
+	(3, 'CANCELLED'),
 	(1, 'COMPLETED'),
 	(2, 'RECEIVED'),
-	(3, 'CANCELLED'),
 	(4, 'ROLLED');
 /*!40000 ALTER TABLE `order_status` ENABLE KEYS */;
 
 DELETE FROM `package`;
 /*!40000 ALTER TABLE `package` DISABLE KEYS */;
-INSERT INTO `package` (`id`, `name`, `description`, `category_id`) VALUES
-	(1, 'Lunch Kit (Veg)', '', 1),
-	(2, 'Lunch Kit (Non Veg)', '', 1);
+INSERT INTO `package` (`id`, `name`, `description`, `category_id`, `sales_price`) VALUES
+	(1, 'Lunch Kit (Veg)', '', 1, 68.00),
+	(2, 'Lunch Kit (Non Veg)', '', 1, 68.00);
 /*!40000 ALTER TABLE `package` ENABLE KEYS */;
 
 DELETE FROM `package_category`;
 /*!40000 ALTER TABLE `package_category` DISABLE KEYS */;
 INSERT INTO `package_category` (`id`, `name`) VALUES
-	(1, 'Lunch Kit'),
-	(2, 'Birthday Party');
+	(2, 'Birthday Party'),
+	(1, 'Lunch Kit');
 /*!40000 ALTER TABLE `package_category` ENABLE KEYS */;
 
 DELETE FROM `package_dish`;
@@ -273,14 +277,6 @@ INSERT INTO `package_dish` (`id`, `package_id`, `dish_id`) VALUES
 	(3, 2, 8),
 	(10, 2, 9);
 /*!40000 ALTER TABLE `package_dish` ENABLE KEYS */;
-
-DELETE FROM `calc_parameters` WHERE `id`=1;
-INSERT INTO `calc_parameters` (`id`, `name`, `value`, `description`) VALUES (1, 'tax_rate', 0.070, 'GST');
-DELETE FROM `calc_parameters` WHERE `id`=2;
-INSERT INTO `calc_parameters` (`id`, `name`, `value`, `description`) VALUES (2, 'online_store_prct', 0.034, 'Online store percentage charge on total amount');
-DELETE FROM `calc_parameters` WHERE `id`=3;
-INSERT INTO `calc_parameters` (`id`, `name`, `value`, `description`) VALUES (3, 'online_store_markup', 0.500, 'Online store flat markup ');
-
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
