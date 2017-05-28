@@ -193,7 +193,7 @@ INSERT INTO `ingredient` (`id`, `name`, `brand_name`, `cost_price`, `measure`, `
 	(56, 'Pepper, Black', 'Fairprice', 3.60, 100.00, '', 1, 1, 1),
 	(57, 'Lime Juice', NULL, 0.56, 100.00, '', 2, 1, 1),
 	(58, 'Oil, Canola', 'Fairprice', 0.33, 100.00, 'For brushing', 1, 1, 1),
-	(59, 'Water', '', 0.00, 0.00, '', 5, 7, 2),
+	(59, 'Water', '', 0.00, 100.00, '', 5, 7, 2),
 	(60, 'Tomato', '', 0.30, 100.00, '', 2, 1, 1),
 	(61, 'Bell Pepper, Green', '', 0.39, 100.00, '', 2, 1, 1),
 	(62, 'Bell Pepper, Red', '', 1.73, 100.00, '', 2, 1, 1),
