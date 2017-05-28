@@ -42,8 +42,8 @@ class DataService:
                     d.name dish_name,
                     sum(op.package_qty) dish_qty,
                     i.name ingredient_name,
-                    sum(di.ingredient_weight * op.package_qty) total_ingredient_weight,
-                    sum(di.ingredient_weight * (i.cost_price/i.measure) * op.package_qty) total_cost_price
+                    round(sum(di.ingredient_weight * op.package_qty), 2) total_ingredient_weight,
+                    round(sum(di.ingredient_weight * (i.cost_price/i.measure) * op.package_qty), 2) total_cost_price
                 from
                     orders o, order_package op, package_dish pd, dish d, dish_ingredient di, ingredient i
                 where
