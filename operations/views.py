@@ -78,11 +78,16 @@ class CreateOrderView(OperationsBaseView):
             # query package data in bulk
             packages = Package.objects.in_bulk(package_ids)
             for _, pkg in packages.iteritems():
+                package_qty = pkg_to_qty[pkg.id]
+                # ignore zero quantities
+                if package_qty == 0:
+                    continue
+
                 opd = OrderPackageDetails()
                 # set required params
                 opd.order = order
                 opd.package = pkg
-                opd.package_qty = pkg_to_qty[pkg.id]
+                opd.package_qty = package_qty
                 # save
                 opd.save()
 
