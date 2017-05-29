@@ -13,9 +13,11 @@ class DataService:
     @staticmethod
     def get_all_orders():
         orders = Order.objects.order_by('-order_date')
-        # create new variable to display package names
+        # create new variables for display
         for o in orders:
             o.package_names = ', '.join([p.name for p in list(o.packages.all())])
+            o.delivery_date = o.deliveryinfo_set.get().delivery_date
+            o.delivery_charge = o.deliveryinfo_set.get().charge
         return orders
 
     @staticmethod

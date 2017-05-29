@@ -3,17 +3,23 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import View
 from django.shortcuts import render
+from django.contrib import messages
 
 import pandas as pd
 
 from . import utils
+
 from .dto import DishQuantities
 from .dto import IngredientShoppingList
+
 from .forms import DeliveryInfoForm
 from .forms import OrderForm
+
+from .models import Order
 from .models import OrderPackageDetails
 from .models import Package
 from .models import OrderPoller
+
 from .services import DataService
 
 
@@ -36,7 +42,6 @@ class IndexView(OperationsBaseView):
 
 
 class CreateOrderView(OperationsBaseView):
-
     def post(self, request, *args, **kwargs):
         # POST request : we need to process the form data
 
@@ -60,19 +65,20 @@ class CreateOrderView(OperationsBaseView):
         order_form = OrderForm(mutable)
         delivery_info_form = DeliveryInfoForm(mutable)
 
-        # update delivery status to assigned
+        # get respective instances
         di = delivery_info_form.instance
+        order = order_form.instance
+
+        # set delivery status to assigned
         utils.assign_delivery(di)
 
-        # TODO : Rollback not happening!!!!
+        # TODO : Rollback!
         if all([order_form.is_valid(), delivery_info_form.is_valid()]):
-            # save delivery info
-            di = delivery_info_form.save()
-
-            # save order after linking it with this delivery info
-            order = order_form.instance
-            order.delivery = di
+            # save order
             order.save()
+            # save delivery info after linking it with this order
+            di.order = order
+            di.save()
 
             # save order package details with quantity
             # query package data in bulk
@@ -97,7 +103,7 @@ class CreateOrderView(OperationsBaseView):
             print "NOT VALID!!"
             # TODO: set errors
             self.context.update({'order_form': order_form,
-                       'delivery_info_form': delivery_info_form})
+                                 'delivery_info_form': delivery_info_form})
             return render(request, 'operations/create-order.html', self.context)
 
     def get(self, request, *args, **kwargs):
@@ -107,20 +113,19 @@ class CreateOrderView(OperationsBaseView):
 
         package_ids = DataService.get_all_packages()
         self.context.update({'order_form': order_form,
-                   'delivery_info_form': delivery_info_form,
-                   'packages': package_ids})
+                             'delivery_info_form': delivery_info_form,
+                             'packages': package_ids})
         return render(request, 'operations/create-order.html', self.context)
 
 
 class GenerateShoppingListView(OperationsBaseView):
-
     def post(self, request, *args, **kwargs):
         order_ids = request.POST.getlist('order_ids')
         dish_ids = request.POST.getlist('dish_ids')
 
         if len(order_ids) != 0:
             # load orders
-            ids = utils.convert_to_list(order_ids)
+            ids = utils.convert_to_int_list(order_ids)
             rows = DataService.get_shopping_list_details(order_ids=ids, dish_ids=dish_ids)
 
             # create data frame to process data
@@ -155,8 +160,8 @@ class GenerateShoppingListView(OperationsBaseView):
             # add to context
             order_ids_str = utils.convert_to_string_arr(order_ids)
             self.context.update({'ingredients_shopping_list': ingrds_shopping_list,
-                       'dish_quantities': dish_quantities,
-                       'order_ids': order_ids_str})
+                                 'dish_quantities': dish_quantities,
+                                 'order_ids': order_ids_str})
             if dish_ids:
                 self.context['selected_dish_ids'] = utils.convert_to_string_arr(dish_ids)
 
@@ -164,19 +169,39 @@ class GenerateShoppingListView(OperationsBaseView):
         else:
             orders = DataService.get_all_orders()
             self.context.update({
-                'orders': orders,
-                'err_msg': 'Select at least one order to generate shopping list'
+                'orders': orders
             })
+
+            messages.error(request, 'Select at least one order to generate shopping list')
             return render(request, 'operations/index.html', self.context)
 
 
 class CompleteOrderView(OperationsBaseView):
-
     def get(self, request, *args, **kwargs):
         return HttpResponse("Not implemented")
 
 
 class DeleteOrderView(OperationsBaseView):
+    def post(self, request, *args, **kwargs):
+        order_ids = request.POST.getlist('order_ids')
 
+        if len(order_ids) != 0:
+            order_ids = utils.convert_to_int_list(order_ids)
+
+            opds = OrderPackageDetails.objects.filter(order_id__in=order_ids)
+            opds.delete()
+
+            orders = Order.objects.filter(id__in=order_ids)
+            out = orders.delete()
+            count = out[1]['operations.Order']
+
+            messages.success(request, '{count} order(s) deleted'.format(count=count))
+            return HttpResponseRedirect(reverse('operations:index'))
+        else:
+            messages.error(request, 'Select at least one order to delete')
+            return HttpResponseRedirect(reverse('operations:index'))
+
+
+class ShowPromo(OperationsBaseView):
     def get(self, request, *args, **kwargs):
         return HttpResponse("Not implemented")

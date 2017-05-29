@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^create/order/$', views.CreateOrderView.as_view(), name='create-order'),
     url(r'^generate/shopping-list/$', views.GenerateShoppingListView.as_view(), name='shopping-list'),
     url(r'^complete/order/$', views.CompleteOrderView.as_view(), name='complete-order'),
+    url(r'^show/promo/$', views.ShowPromo.as_view(), name='show-promo'),
 ]

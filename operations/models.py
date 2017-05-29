@@ -79,27 +79,6 @@ class DeliveryPartner(models.Model):
         ordering = ['name']
 
 
-# information about the delivery
-class DeliveryInfo(models.Model):
-    partner = models.ForeignKey(DeliveryPartner, on_delete=models.DO_NOTHING)
-    delivery_date = models.DateField()
-    actual_delivery_date = models.DateTimeField(blank=True, null=True)
-    charge = models.DecimalField(max_digits=CCY_MAX_DIGITS, decimal_places=CCY_DECIMAL_PLACES)
-    status = models.ForeignKey(DeliveryStatus, on_delete=models.DO_NOTHING)
-    address_line_1 = models.CharField(max_length=LONG_STR_MAX_LENGTH)
-    address_line_2 = models.CharField(max_length=LONG_STR_MAX_LENGTH, blank=True)
-    unit_number = models.CharField(max_length=SHORT_STR_MAX_LENGTH)
-    pin_code = models.IntegerField()
-
-    def __str__(self):
-        return self.partner.__str__()  # TODO:
-
-    class Meta:
-        db_table = 'delivery_info'
-        verbose_name = 'Delivery Info'
-        verbose_name_plural = 'Delivery Info'
-
-
 # procurement sources
 class IngredientSource(models.Model):
     name = models.CharField(max_length=LONG_STR_MAX_LENGTH, unique=True)
@@ -244,7 +223,6 @@ class Order(models.Model):
     created_ts = models.DateTimeField(auto_now_add=True)
     client = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
     packages = models.ManyToManyField(Package, through='OrderPackageDetails')
-    delivery = models.ForeignKey(DeliveryInfo, on_delete=models.DO_NOTHING)
     sales_price = models.DecimalField(max_digits=CCY_MAX_DIGITS, decimal_places=CCY_DECIMAL_PLACES)
     tax = models.DecimalField(max_digits=CCY_MAX_DIGITS, decimal_places=CCY_DECIMAL_PLACES)
     online_store_charge = models.DecimalField(max_digits=CCY_MAX_DIGITS, decimal_places=CCY_DECIMAL_PLACES)
@@ -269,6 +247,28 @@ class OrderPackageDetails(models.Model):
         db_table = 'order_package'
         verbose_name = 'Order Package'
         verbose_name_plural = 'Order Packages'
+
+
+# information about the delivery
+class DeliveryInfo(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    partner = models.ForeignKey(DeliveryPartner, on_delete=models.DO_NOTHING)
+    delivery_date = models.DateField()
+    actual_delivery_date = models.DateTimeField(blank=True, null=True)
+    charge = models.DecimalField(max_digits=CCY_MAX_DIGITS, decimal_places=CCY_DECIMAL_PLACES)
+    status = models.ForeignKey(DeliveryStatus, on_delete=models.DO_NOTHING)
+    address_line_1 = models.CharField(max_length=LONG_STR_MAX_LENGTH)
+    address_line_2 = models.CharField(max_length=LONG_STR_MAX_LENGTH, blank=True)
+    unit_number = models.CharField(max_length=SHORT_STR_MAX_LENGTH)
+    pin_code = models.IntegerField()
+
+    def __str__(self):
+        return self.partner.__str__()  # TODO:
+
+    class Meta:
+        db_table = 'delivery_info'
+        verbose_name = 'Delivery Info'
+        verbose_name_plural = 'Delivery Info'
 
 
 # employee role
@@ -388,10 +388,9 @@ class OrderPoller(models.Model):
     is_captured = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{m_id} : {ts} : [{snippet}]'.format(m_id=self.message_id, ts=self.received_ts, snippet=self.message_snippet)
+        return '{m_id} : {ts} : [{snippet}]'.format(m_id=self.message_id, ts=self.received_ts,
+                                                    snippet=self.message_snippet)
 
     class Meta:
         db_table = 'order_poller'
         ordering = ['-received_ts']
-
-

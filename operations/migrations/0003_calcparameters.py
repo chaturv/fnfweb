@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ['name'],
-                'db_table': 'calc_Parameters',
+                'db_table': 'calc_parameters',
                 'verbose_name': 'Calculation Parameter',
                 'verbose_name_plural': 'Calculation Parameters',
             },
