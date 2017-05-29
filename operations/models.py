@@ -217,6 +217,20 @@ class Client(models.Model):
         ordering = ['last_name']
 
 
+class ClientKids(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, )
+    birth_date = models.DateField()
+
+    def __str__(self):
+        return '{c} has one child born on : {dt}'.format(c=self.client, dt=self.birth_date)
+
+    class Meta:
+        db_table = 'client_kids'
+        verbose_name = 'Client Kid'
+        verbose_name_plural = 'Client Kids'
+        ordering = ['birth_date']
+
+
 # An order
 class Order(models.Model):
     order_date = models.DateField()

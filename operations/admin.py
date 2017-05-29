@@ -12,6 +12,7 @@ from .models import IngredientCategory
 from .models import Dish
 from .models import DishIngredientDetails
 from .models import Client
+from .models import ClientKids
 from .models import Employee
 from .models import EmployeeRole
 from .models import Facility
@@ -31,6 +32,7 @@ admin.site.register(IngredientCategory)
 admin.site.register(Dish)
 admin.site.register(DishIngredientDetails)
 admin.site.register(Client)
+admin.site.register(ClientKids)
 admin.site.register(Employee)
 admin.site.register(EmployeeRole)
 admin.site.register(Facility)
