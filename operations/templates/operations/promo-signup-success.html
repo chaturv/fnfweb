@@ -1,0 +1,42 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" type="text/css">
+    <link rel="stylesheet" href="{% static 'operations/css/operations.css' %}">
+    <script src="{% static 'operations/js/operations.js' %}"></script>
+</head>
+
+<body>
+{% block header %}
+{% include "operations/_header.html" %}
+{% endblock %}
+
+
+<div class="container"> <!-- bg-lt-blue -->
+    <div class="alert alert-dismissible alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        Thank You <strong>{{ f_name }}</strong>! Your promo code has been sent to your e-mail address.
+    </div>
+</div>
+
+<p>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</body>
+</html>

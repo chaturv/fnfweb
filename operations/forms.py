@@ -2,7 +2,7 @@ from crispy_forms.bootstrap import PrependedText, FieldWithButtons, StrictButton
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, HTML
 
-from django import forms
+
 from django.forms import DateInput
 from django.forms import ModelForm
 
@@ -95,3 +95,22 @@ class DeliveryInfoForm(ModelForm):
         widgets = {
             'delivery_date': CustomDateInput(),
         }
+
+
+class PromoSignUpForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PromoSignUpForm, self).__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-4'
+        self.helper.form_tag = False
+
+    class Meta:
+        model = models.Client
+        fields = ['first_name',
+                  'last_name',
+                  'phone_number',
+                  'email',]

@@ -14,6 +14,7 @@ from .dto import IngredientShoppingList
 
 from .forms import DeliveryInfoForm
 from .forms import OrderForm
+from .forms import PromoSignUpForm
 
 from .models import Order
 from .models import OrderPackageDetails
@@ -99,9 +100,7 @@ class CreateOrderView(OperationsBaseView):
 
             return HttpResponseRedirect(reverse('operations:index'))
         else:
-            print '*' * 40
-            print "NOT VALID!!"
-            # TODO: set errors
+            # TODO: Add a message to display at top?
             self.context.update({'order_form': order_form,
                                  'delivery_info_form': delivery_info_form})
             return render(request, 'operations/create-order.html', self.context)
@@ -202,6 +201,34 @@ class DeleteOrderView(OperationsBaseView):
             return HttpResponseRedirect(reverse('operations:index'))
 
 
-class ShowPromo(OperationsBaseView):
+class PromoSignUpView(OperationsBaseView):
     def get(self, request, *args, **kwargs):
-        return HttpResponse("Not implemented")
+        self.context.update({'promo_signup_form': PromoSignUpForm()})
+
+        return render(request, 'operations/promo-signup.html', self.context)
+
+    def post(self, request, *args, **kwargs):
+        form = PromoSignUpForm(request.POST)
+        if form.is_valid():
+            client = form.instance
+            # set blanks for fields we are not capturing
+            if not client.phone_number:
+                client.phone_number = 0
+            client.address_line_1 = ''
+            client.address_line_2 = ''
+            client.unit_number = ''
+            client.pin_code = 0
+
+            # save
+            client.save()
+
+            # TODO: send email
+
+            self.context.update({'f_name': client.first_name})
+            return render(request, 'operations/promo-signup-success.html', self.context)
+        else:
+            self.context.update({'promo_signup_form': form})
+            return render(request, 'operations/promo-signup.html', self.context)
+
+
+

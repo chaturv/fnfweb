@@ -1,0 +1,48 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" type="text/css">
+    <link rel="stylesheet" href="{% static 'operations/css/operations.css' %}">
+    <script src="{% static 'operations/js/operations.js' %}"></script>
+</head>
+
+<body>
+{% block header %}
+{% include "operations/_header.html" %}
+{% endblock %}
+
+<form action="{% url 'operations:promo-signup' %}" method="post" class="form-horizontal" id="id_promo_signup_form">
+    {% csrf_token %}
+    <div class="container"> <!-- bg-lt-blue -->
+        <p>
+            {% crispy promo_signup_form %}
+        <hr>
+        <div class="form-group">
+            <div class="aab controls col-lg-2"></div>
+            <div class="controls col-lg-4">
+                <input type="submit" name="submit" value="Sign Up!" class="btn btn-primary"
+                       id="id_submit_promo_signup_form" onclick="return true"/>
+            </div>
+        </div>
+    </div>
+</form>
+<p>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</body>
+</html>
