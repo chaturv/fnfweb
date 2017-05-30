@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.contrib import messages
 
 import pandas as pd
+from datetime import datetime
 
 from . import utils
 
@@ -20,6 +21,7 @@ from .models import Order
 from .models import OrderPackageDetails
 from .models import Package
 from .models import OrderPoller
+from .models import ClientKids
 
 from .services import DataService
 
@@ -209,6 +211,8 @@ class PromoSignUpView(OperationsBaseView):
 
     def post(self, request, *args, **kwargs):
         form = PromoSignUpForm(request.POST)
+
+        # TODO: Rollback!
         if form.is_valid():
             client = form.instance
             # set blanks for fields we are not capturing
@@ -222,6 +226,24 @@ class PromoSignUpView(OperationsBaseView):
             # save
             client.save()
 
+            # save birthdays if entered
+            bday_dates = request.POST.getlist('bdayDate')
+            if bday_dates:
+                client_kids = []
+                for bd in bday_dates:
+                    if bd:  # not a blank string
+                        try:
+                            birth_date = datetime.strptime(bd, '%Y-%m-%d')
+                            client_kids.append(ClientKids(client=client, birth_date=birth_date))
+                        except ValueError as ex:
+                            messages.error(request, 'Please enter a valid birthday: {bd}'.format(bd=bd))
+                            # TODO : Update date field values
+                            self.context.update({'promo_signup_form': form})
+                            return render(request, 'operations/promo-signup.html', self.context)
+
+                for ck in client_kids:
+                    ck.save()
+
             # TODO: send email
 
             self.context.update({'f_name': client.first_name})
@@ -229,6 +251,3 @@ class PromoSignUpView(OperationsBaseView):
         else:
             self.context.update({'promo_signup_form': form})
             return render(request, 'operations/promo-signup.html', self.context)
-
-
-

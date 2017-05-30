@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" type="text/css">
     <link rel="stylesheet" href="{% static 'operations/css/operations.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="{% static 'operations/js/operations.js' %}"></script>
 </head>
 
@@ -18,12 +20,46 @@
 {% include "operations/_header.html" %}
 {% endblock %}
 
+
 <form action="{% url 'operations:promo-signup' %}" method="post" class="form-horizontal" id="id_promo_signup_form">
     {% csrf_token %}
     <div class="container"> <!-- bg-lt-blue -->
+        {% block messages %}
+        {% include "operations/_messages.html" %}
+        {% endblock %}
         <p>
             {% crispy promo_signup_form %}
         <hr>
+        <!-- add optional birthdays -->
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Birthday</label>
+            <div class="controls col-lg-4">
+                <div class="input-group input-append" id="bdayPicker">
+                    <input type="date" class="form-control customdateinput" name="bdayDate" placeholder="Birthday" />
+                    <!--<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="btn btn-default addButton">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Template for adding new birthday field -->
+        <div class="form-group hide" id="bdayTemplate">
+            <div class="controls col-lg-4 col-lg-offset-2">
+                <div class="input-group input-append">
+                    <input type="date" class="form-control customdateinput" name="bdayDate" placeholder="Birthday" />
+                    <!--<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="btn btn-default removeButton">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
         <div class="form-group">
             <div class="aab controls col-lg-2"></div>
             <div class="controls col-lg-4">
@@ -35,12 +71,30 @@
 </form>
 <p>
 
+    <script>
+    $(document).ready(function() {
+        $('#id_promo_signup_form')
+            // Add button click handler
+            .on('click', '.addButton', function() {
+                var $template = $('#bdayTemplate'),
+                    $clone    = $template
+                                    .clone()
+                                    .removeClass('hide')
+                                    .removeAttr('id')
+                                    .insertBefore($template);
+            })
+
+            // Remove button click handler
+            .on('click', '.removeButton', function() {
+                var $row = $(this).closest('.form-group');
+                $row.remove();
+            });
+    });
+    </script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
