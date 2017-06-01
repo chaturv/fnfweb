@@ -200,7 +200,7 @@ class Package(models.Model):
 class Client(models.Model):
     first_name = models.CharField(max_length=LONG_STR_MAX_LENGTH)
     last_name = models.CharField(max_length=LONG_STR_MAX_LENGTH)
-    phone_number = models.IntegerField(blank=True)
+    phone_number = models.IntegerField(blank=True, verbose_name='Phone')
     email = models.EmailField(unique=True)
     address_line_1 = models.CharField(max_length=LONG_STR_MAX_LENGTH)
     address_line_2 = models.CharField(max_length=LONG_STR_MAX_LENGTH, blank=True, null=True)
