@@ -104,7 +104,7 @@ class PromoSignUpForm(ModelForm):
         self.helper = FormHelper()
 
         self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-sm-3 col-md-2'
+        self.helper.label_class = 'col-sm-4 col-md-2'
         self.helper.field_class = 'col-sm-6 col-md-5'
         self.helper.form_tag = False
 
