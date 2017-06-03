@@ -22,7 +22,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-9">
             <form action="{% url 'operations:promo-signup' %}" method="post" class="form-horizontal" id="id_promo_signup_form">
                 {% csrf_token %}
                 {% block messages %}
@@ -30,7 +30,7 @@
                 {% endblock %}
                 <p>
                     {% crispy promo_signup_form %}
-                <hr>
+                <!--<hr>-->
                 <!-- add optional birthdays -->
                 <div class="form-group">
                     <label class="col-md-2 control-label">Birthday</label>
@@ -65,7 +65,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-3">
             <img src="{% static 'operations/images/farmers_mkt_lowen_gdns.jpg' %}">
         </div>
     </div>
