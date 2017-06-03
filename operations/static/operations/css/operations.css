@@ -138,11 +138,6 @@ body {
     font-size : 24px
 }
 
-.alert {
-    width:70%
-    height:5px
-}
-
 th {
     background-color: #649efc;
     color: white;

@@ -68,15 +68,21 @@ class CreateOrderView(OperationsBaseView):
         order_form = OrderForm(mutable)
         delivery_info_form = DeliveryInfoForm(mutable)
 
-        # get respective instances
-        di = delivery_info_form.instance
-        order = order_form.instance
-
-        # set delivery status to assigned
-        utils.assign_delivery(di)
-
         # TODO : Rollback!
         if all([order_form.is_valid(), delivery_info_form.is_valid()]):
+            # validate quantities
+            if sum(quantities) == 0:
+                self._build_error_context(request, order_form, delivery_info_form,
+                                          pkg_to_qty, 'All entered quantities are zero')
+                return render(request, 'operations/create-order.html', self.context)
+
+            # get respective instances
+            di = delivery_info_form.instance
+            order = order_form.instance
+
+            # set delivery status to assigned
+            utils.assign_delivery(di)
+
             # save order
             order.save()
             # save delivery info after linking it with this order
@@ -87,7 +93,7 @@ class CreateOrderView(OperationsBaseView):
             # query package data in bulk
             packages = Package.objects.in_bulk(package_ids)
             for _, pkg in packages.iteritems():
-                package_qty = pkg_to_qty[pkg.id]
+                package_qty = pkg_to_qty.get(pkg.id, 0)
                 # ignore zero quantities
                 if package_qty == 0:
                     continue
@@ -102,20 +108,33 @@ class CreateOrderView(OperationsBaseView):
 
             return HttpResponseRedirect(reverse('operations:index'))
         else:
-            # TODO: Add a message to display at top?
-            self.context.update({'order_form': order_form,
-                                 'delivery_info_form': delivery_info_form})
+            self._build_error_context(request, order_form, delivery_info_form, pkg_to_qty, None)
             return render(request, 'operations/create-order.html', self.context)
+
+    def _build_error_context(self, request, order_form, delivery_info_form, pkg_to_qty, message):
+        packages = DataService.get_all_packages()
+        # restore quantities
+        for pkg in packages:
+            pkg.qty = pkg_to_qty.get(pkg.id, 0)
+
+        if message:
+            messages.error(request, message)
+        self.context.update({'order_form': order_form,
+                             'delivery_info_form': delivery_info_form,
+                             'packages': packages})
 
     def get(self, request, *args, **kwargs):
         # GET (or any other method) : we'll create a blank form
         order_form = OrderForm()
         delivery_info_form = DeliveryInfoForm()
 
-        package_ids = DataService.get_all_packages()
+        packages = DataService.get_all_packages()
+        for pkg in packages:
+            pkg.qty = 0
+
         self.context.update({'order_form': order_form,
                              'delivery_info_form': delivery_info_form,
-                             'packages': package_ids})
+                             'packages': packages})
         return render(request, 'operations/create-order.html', self.context)
 
 
@@ -211,12 +230,6 @@ class PromoSignUpView(OperationsBaseView):
 
     def post(self, request, *args, **kwargs):
         form = PromoSignUpForm(request.POST)
-
-        print '*' * 40
-        print request.POST
-        print '*' * 40
-        print form
-        print '*' * 40
 
         # TODO: Rollback!
         if form.is_valid():

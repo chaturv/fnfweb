@@ -19,8 +19,8 @@ class OrderForm(ModelForm):
         self.helper = FormHelper()
 
         self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-4'
+        self.helper.label_class = 'col-md-2'
+        self.helper.field_class = 'col-md-4'
         self.helper.form_tag = False
 
         hidden_calc_inputs = """<input type="hidden" id="id_tax_rate" value="{tax_rate}"/>
@@ -68,8 +68,8 @@ class DeliveryInfoForm(ModelForm):
         self.helper = FormHelper()
 
         self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-4'
+        self.helper.label_class = 'col-md-2'
+        self.helper.field_class = 'col-md-4'
         self.helper.form_tag = False
 
         self.helper.layout = Layout(
