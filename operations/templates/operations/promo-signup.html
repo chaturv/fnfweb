@@ -23,6 +23,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9">
+            <h4 class="sub-header">Sign up to receive a Fusspot & Foodie discount coupon!</h4>
             <form action="{% url 'operations:promo-signup' %}" method="post" class="form-horizontal" id="id_promo_signup_form">
                 {% csrf_token %}
                 {% block messages %}
@@ -31,6 +32,9 @@
                 <p>
                     {% crispy promo_signup_form %}
                 <!--<hr>-->
+                <p>
+                <h5 class="sub-header"><strong>(Optional)</strong> If you like, you could share birthdays of your kids
+                    to receive our special offers around that time</h5>
                 <!-- add optional birthdays -->
                 <div class="form-group">
                     <label class="col-md-2 control-label">Birthday</label>
