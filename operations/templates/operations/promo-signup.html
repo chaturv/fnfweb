@@ -20,50 +20,57 @@
 {% include "operations/_header.html" %}
 {% endblock %}
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <form action="{% url 'operations:promo-signup' %}" method="post" class="form-horizontal" id="id_promo_signup_form">
+                {% csrf_token %}
+                {% block messages %}
+                {% include "operations/_messages.html" %}
+                {% endblock %}
+                <p>
+                    {% crispy promo_signup_form %}
+                <hr>
+                <!-- add optional birthdays -->
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Birthday</label>
+                    <div class="controls col-md-4">
+                        <input type="date" class="form-control customdateinput" name="bdayDate" placeholder="Birthday" />
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-default addButton">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
 
-<form action="{% url 'operations:promo-signup' %}" method="post" class="form-horizontal" id="id_promo_signup_form">
-    {% csrf_token %}
-    <div class="container"> <!-- bg-lt-blue -->
-        {% block messages %}
-        {% include "operations/_messages.html" %}
-        {% endblock %}
-        <p>
-            {% crispy promo_signup_form %}
-        <hr>
-        <!-- add optional birthdays -->
-        <div class="form-group">
-            <label class="col-xs-2 control-label">Birthday</label>
-            <div class="controls col-xs-4">
-                    <input type="date" class="form-control customdateinput" name="bdayDate" placeholder="Birthday" />
-            </div>
-            <div class="col-xs-1">
-                <button type="button" class="btn btn-default addButton">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </button>
-            </div>
+                <!-- Template for adding new birthday field -->
+                <div class="form-group hide" id="bdayTemplate">
+                    <label class="col-md-2 control-label">Birthday</label>
+                    <div class="controls col-md-4">
+                        <input type="date" class="form-control customdateinput" name="bdayDate" placeholder="Birthday" />
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-default removeButton">
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="aab controls col-md-2"></div>
+                    <div class="controls col-md-4">
+                        <input type="submit" name="submit" value="Sign Up!" class="btn btn-primary"
+                               id="id_submit_promo_signup_form" onclick="return true"/>
+                    </div>
+                </div>
+            </form>
         </div>
-
-        <!-- Template for adding new birthday field -->
-        <div class="form-group hide" id="bdayTemplate">
-            <label class="col-xs-2 control-label">Birthday</label>
-            <div class="controls col-xs-4">
-                    <input type="date" class="form-control customdateinput" name="bdayDate" placeholder="Birthday" />
-            </div>
-            <div class="col-xs-1">
-                <button type="button" class="btn btn-default removeButton">
-                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                </button>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="aab controls col-lg-2"></div>
-            <div class="controls col-lg-4">
-                <input type="submit" name="submit" value="Sign Up!" class="btn btn-primary"
-                       id="id_submit_promo_signup_form" onclick="return true"/>
-            </div>
+        <div class="col-md-5">
+            <img src="{% static 'operations/images/farmers_mkt_lowen_gdns.jpg' %}">
         </div>
     </div>
-</form>
+</div>
+
 <p>
 
     <script>
