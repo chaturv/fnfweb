@@ -145,7 +145,7 @@ class GenerateShoppingListView(OperationsBaseView):
 
         if len(order_ids) != 0:
             # load orders
-            ids = utils.convert_to_int_list(order_ids)
+            ids = utils.convert_to_list(order_ids)
             rows = DataService.get_shopping_list_details(order_ids=ids, dish_ids=dish_ids)
 
             # create data frame to process data
