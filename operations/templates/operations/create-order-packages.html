@@ -1,6 +1,6 @@
 <div id="div_id_packages" class="form-group">
-   <label class="control-label col-md-2 requiredField">Packages<span class="asteriskField">*</span></label>
-   <div class="controls col-md-4">
+   <label class="control-label col-sm-2 requiredField">Packages<span class="asteriskField">*</span></label>
+   <div class="controls col-sm-4">
        <table class="table table-hover table-condensed small">
         <thead>
         <tr>
@@ -16,7 +16,7 @@
             <td>{{ pkg.name }}</td>
             <td id="id_package_{{ pkg.id }}_price">${{ pkg.sales_price }}</td>
             <td>
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <input class="numberinput form-control input-sm" min="0" step="1"
                     type="number" required
                     id="id_package_{{ pkg.id }}" name="{{ pkg.id }}" value="{{ pkg.qty }}"
