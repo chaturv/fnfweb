@@ -112,5 +112,4 @@ class PromoSignUpForm(ModelForm):
         model = models.Client
         fields = ['first_name',
                   'last_name',
-                  'phone_number',
                   'email',]

@@ -212,12 +212,21 @@ class PromoSignUpView(OperationsBaseView):
     def post(self, request, *args, **kwargs):
         form = PromoSignUpForm(request.POST)
 
+        print '*' * 40
+        print request.POST
+        print '*' * 40
+        print form
+        print '*' * 40
+
         # TODO: Rollback!
         if form.is_valid():
             client = form.instance
+
+            # get phone number
+            phone_number = request.POST.get('phone_number')
+            client.phone_number = phone_number if phone_number else 0
+
             # set blanks for fields we are not capturing
-            if not client.phone_number:
-                client.phone_number = 0
             client.address_line_1 = ''
             client.address_line_2 = ''
             client.unit_number = ''

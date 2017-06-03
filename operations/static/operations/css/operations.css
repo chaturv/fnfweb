@@ -112,6 +112,10 @@ body {
     color: #80fc67;
 }
 
+.dk-gray {
+    color: #adadad;
+}
+
 .dk-green {
     color: #09ba00;
 }
@@ -132,6 +136,11 @@ body {
 .logo {
     font-family: 'Lobster', cursive;
     font-size : 24px
+}
+
+.alert {
+    width:70%
+    height:5px
 }
 
 th {

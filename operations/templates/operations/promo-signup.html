@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="alert alert-dismissible alert-info" role="alert">
-                Sign up to receive a Fusspot & Foodie discount coupon!
+                <strong>Sign up</strong> to receive a Fusspot & Foodie discount coupon!
             </div>
 
             <form action="{% url 'operations:promo-signup' %}" method="post" class="form-horizontal" id="id_promo_signup_form">
@@ -32,16 +32,23 @@
                 {% block messages %}
                 {% include "operations/_messages.html" %}
                 {% endblock %}
-                <p>
-                    {% crispy promo_signup_form %}
+
+                {% crispy promo_signup_form %}
                 <!--<hr>-->
-                <p>
-                <h5 class="sub-header"><strong>(Optional)</strong>
-                <br><br>
-                If you like, you could share birthdays of your kids to receive our special offers around that time</h5>
+
+                <br>
+                <h5 class="sub-header"><strong class="dk-gray">Optional</strong></h5>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Phone</label>
+                    <div class="controls col-md-4">
+                        <input type="number" class="form-control numberinput" name="phone_number" placeholder="" />
+                    </div>
+                </div>
+                <!--Share birthdays of your kids to receive our special offers around that time-->
                 <!-- add optional birthdays -->
                 <div class="form-group">
-                    <label class="col-md-2 control-label">Birthday</label>
+                    <label class="col-md-2 control-label">Kid's Birthday</label>
                     <div class="controls col-md-4">
                         <input type="date" class="form-control customdateinput" name="bdayDate" placeholder="Birthday" />
                     </div>
