@@ -22,8 +22,11 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-9">
-            <h4 class="sub-header">Sign up to receive a Fusspot & Foodie discount coupon!</h4>
+        <div class="col-md-7">
+            <div class="alert alert-dismissible alert-info" role="alert">
+                Sign up to receive a Fusspot & Foodie discount coupon!
+            </div>
+
             <form action="{% url 'operations:promo-signup' %}" method="post" class="form-horizontal" id="id_promo_signup_form">
                 {% csrf_token %}
                 {% block messages %}
@@ -33,8 +36,9 @@
                     {% crispy promo_signup_form %}
                 <!--<hr>-->
                 <p>
-                <h5 class="sub-header"><strong>(Optional)</strong> If you like, you could share birthdays of your kids
-                    to receive our special offers around that time</h5>
+                <h5 class="sub-header"><strong>(Optional)</strong>
+                <br><br>
+                If you like, you could share birthdays of your kids to receive our special offers around that time</h5>
                 <!-- add optional birthdays -->
                 <div class="form-group">
                     <label class="col-md-2 control-label">Birthday</label>
@@ -70,7 +74,7 @@
             </form>
         </div>
         <div class="col-md-3">
-            <img src="{% static 'operations/images/farmers_mkt_lowen_gdns.jpg' %}">
+            <img src="{% static 'operations/images/fnf_banner_low_res.jpg' %}">
         </div>
     </div>
 </div>
