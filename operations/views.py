@@ -150,7 +150,7 @@ class GenerateShoppingListView(OperationsBaseView):
 
             # create data frame to process data
             df = pd.DataFrame(data=rows,
-                              columns=['dish_id', 'dish_name', 'dish_qty',
+                              columns=['dish_id', 'dish_name', 'dish_qty', 'portion_count',
                                        'ingredient_name', 'total_ingredient_weight', 'total_cost_price'])
 
             if dish_ids:
@@ -169,12 +169,12 @@ class GenerateShoppingListView(OperationsBaseView):
                 ))
 
             # get dishes quantities by dropping dupes
-            df_dishes = df.drop_duplicates(['dish_id', 'dish_name', 'dish_qty'])
+            df_dishes = df.drop_duplicates(['dish_id', 'dish_name', 'dish_qty', 'portion_count'])
             # prepare DTO
             dish_quantities = []
             for row in df_dishes.itertuples():
                 dish_quantities.append(DishQuantities(
-                    row.dish_id, row.dish_name, row.dish_qty
+                    row.dish_id, row.dish_name, row.dish_qty, row.portion_count
                 ))
 
             # add to context

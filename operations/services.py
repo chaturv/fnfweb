@@ -43,6 +43,7 @@ class DataService:
                     d.id dish_id,
                     d.name dish_name,
                     sum(op.package_qty) dish_qty,
+                    sum(d.portion_count) portion_count,
                     i.name ingredient_name,
                     round(sum(di.ingredient_weight * op.package_qty), 2) total_ingredient_weight,
                     round(sum(di.ingredient_weight * (i.cost_price/i.measure) * op.package_qty), 2) total_cost_price

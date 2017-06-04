@@ -31,6 +31,7 @@
                     <th class="col-sm-1" align="left"></th>
                     <th class="col-sm-2" align="left">Dish</th>
                     <th class="col-sm-1" align="right">Quantity</th>
+                    <th class="col-sm-1" align="right">Portions</th>
                 </tr>
                 </thead>
                 {% if dish_quantities  %}
@@ -40,6 +41,7 @@
                     <td><input type="checkbox" name="dish_ids" id="id_dish_{{ dq.dish_id }}" value="{{ dq.dish_id }}"></td>
                     <td>{{ dq.dish_name }}</td>
                     <td align="right">{{ dq.dish_qty }}</td>
+                    <td align="right">{{ dq.portion_count }}</td>
                 </tr>
                 {% endfor %}
                 </tbody>

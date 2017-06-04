@@ -3,10 +3,11 @@
 
 class DishQuantities:
 
-    def __init__(self, dish_id, dish_name, dish_qty):
+    def __init__(self, dish_id, dish_name, dish_qty, portion_count):
         self.dish_id = dish_id
         self.dish_name = dish_name
         self.dish_qty = dish_qty
+        self.portion_count = portion_count
 
 
 class IngredientShoppingList:
